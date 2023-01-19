@@ -1,56 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/product.dart';
 import '../widgets/product_item.dart';
+import '../providers/products.dart';
 
 class ProductsOverviewScreen extends StatelessWidget {
-  List<Product> loadedProducts = [
-    Product(
-      id: 'p1',
-      title: 'Red Shirt',
-      description: 'A red shirt - it is pretty red!',
-      price: 29.99,
-      imageUrl:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
-    ),
-    Product(
-      id: 'p2',
-      title: 'Trousers',
-      description: 'A nice pair of trousers.',
-      price: 59.99,
-      imageUrl:
-          'https://cdn.pixabay.com/photo/2016/11/29/05/45/adult-1867284_1280.jpg',
-    ),
-    Product(
-      id: 'p3',
-      title: 'Yellow Scarf',
-      description: 'Warm and cozy - exactly what you need for the winter.',
-      price: 19.99,
-      imageUrl:
-          'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
-    ),
-    Product(
-      id: 'p4',
-      title: 'A Pan',
-      description: 'Prepare any meal you want.',
-      price: 49.99,
-      imageUrl:
-          'https://cdn.pixabay.com/photo/2016/11/18/17/46/pan-1835926_1280.jpg',
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
+
+    // listeners
+    final productsContainer = Provider.of<Products>(context, listen: false);
+    final products = productsContainer.items;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('EShop'),
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(10.0),
-        itemCount: loadedProducts.length,
+        itemCount: products.length,
         itemBuilder: (ctx, i) => ProductItem(
-          loadedProducts[i].id,
-          loadedProducts[i].title,
-          loadedProducts[i].imageUrl,
+          products[i].id,
+          products[i].title,
+          products[i].imageUrl,
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
