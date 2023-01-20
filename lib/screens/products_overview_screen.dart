@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/product.dart';
+import '../providers/product.dart';
 import '../widgets/product_item.dart';
 import '../providers/products.dart';
 
@@ -10,7 +10,7 @@ class ProductsOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     // listeners
-    final productsContainer = Provider.of<Products>(context, listen: false);
+    final productsContainer = Provider.of<Products>(context);
     final products = productsContainer.items;
 
     return Scaffold(
@@ -20,10 +20,9 @@ class ProductsOverviewScreen extends StatelessWidget {
       body: GridView.builder(
         padding: const EdgeInsets.all(10.0),
         itemCount: products.length,
-        itemBuilder: (ctx, i) => ProductItem(
-          products[i].id,
-          products[i].title,
-          products[i].imageUrl,
+        itemBuilder: (ctx, i) => ChangeNotifierProvider(
+          create: (c) => products[i],
+          child: ProductItem(),
         ),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
